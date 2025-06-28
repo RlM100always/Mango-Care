@@ -1,0 +1,330 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{{ title }} - MangoCare</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" />
+    <style>
+        :root {
+            --primary-color: #2e7d32;
+            --secondary-color: #66bb6a;
+            --accent-color: #9cff57;
+            --text-light: #ffffff;
+            --text-dark: #1c2c1c;
+            --gradient: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background-color: #f8faf8;
+            color: var(--text-dark);
+            line-height: 1.6;
+            padding-top: 76px;
+        }
+
+        .header {
+            background: var(--gradient);
+            padding: 1.2rem 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--accent-color);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-decoration: none;
+        }
+
+        .page-title {
+            text-align: center;
+            margin: 2rem 0;
+            color: var(--primary-color);
+            font-size: 2rem;
+            font-weight: 600;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .form-card {
+            background: var(--text-light);
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-section {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            display: block;
+            color: var(--text-dark);
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: var(--transition);
+            background: #f8faf8;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(46, 125, 50, 0.1);
+        }
+
+        textarea.form-input {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .symptoms-container {
+            margin-bottom: 1rem;
+        }
+
+        .symptom-item {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            align-items: center;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.8rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+            border: none;
+        }
+
+        .btn-primary {
+            background: var(--primary-color);
+            color: var(--text-light);
+        }
+
+        .btn-secondary {
+            background: #f0f0f0;
+            color: var(--text-dark);
+        }
+
+        .btn-danger {
+            background: #dc3545;
+            color: var(--text-light);
+            padding: 0.8rem;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .form-hint {
+            font-size: 0.9rem;
+            color: #666;
+            margin-top: 0.3rem;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 1rem;
+            }
+
+            .form-card {
+                padding: 1.5rem;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <nav class="nav-container">
+            <a href="{% url 'home' %}" class="logo">
+                <i class="fas fa-seedling"></i>
+                MangoCare
+            </a>
+        </nav>
+    </header>
+
+    <div class="container">
+        <h1 class="page-title">
+            <i class="fas fa-edit"></i> {{ title }}
+        </h1>
+
+        <div class="form-card">
+            <form method="post">
+                {% csrf_token %}
+
+                <div class="form-section">
+                    <label class="form-label" for="name">
+                        <i class="fas fa-signature"></i> Name
+                    </label>
+                    <input type="text" id="name" name="name" class="form-input" 
+                           value="{{ disease.name|default:'' }}" required />
+                </div>
+
+                <div class="form-section">
+                    <label class="form-label" for="brief_description">
+                        <i class="fas fa-align-left"></i> Brief Description
+                    </label>
+                    <textarea id="brief_description" name="brief_description" 
+                              class="form-input" required>{{ disease.brief_description|default:'' }}</textarea>
+                    <p class="form-hint">Provide a short overview of the disease (max 200 characters)</p>
+                </div>
+
+                <div class="form-section">
+                    <label class="form-label" for="detailed_description">
+                        <i class="fas fa-book"></i> Detailed Description
+                    </label>
+                    <textarea id="detailed_description" name="detailed_description" 
+                              class="form-input" required>{{ disease.detailed_description|default:'' }}</textarea>
+                </div>
+
+                <div class="form-section">
+                    <label class="form-label">
+                        <i class="fas fa-exclamation-circle"></i> Symptoms
+                    </label>
+                    <div id="symptoms-container" class="symptoms-container">
+                        {% if disease.symptoms %}
+                            {% for symptom in disease.symptoms %}
+                                <div class="symptom-item">
+                                    <input type="text" name="symptoms" value="{{ symptom }}" 
+                                           class="form-input" required />
+                                    <button type="button" class="btn btn-danger" onclick="removeSymptom(this)">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </button>
+                                </div>
+                            {% endfor %}
+                        {% else %}
+                            <div class="symptom-item">
+                                <input type="text" name="symptoms" class="form-input" 
+                                       placeholder="Enter symptom" required />
+                                <button type="button" class="btn btn-danger" onclick="removeSymptom(this)">
+                                    <i class="fas fa-trash-alt"></i>
+                                </button>
+                            </div>
+                        {% endif %}
+                    </div>
+                    <button type="button" class="btn btn-secondary" onclick="addSymptomField()">
+                        <i class="fas fa-plus"></i> Add Symptom
+                    </button>
+                </div>
+
+                <div class="form-section">
+                    <label class="form-label" for="treatment">
+                        <i class="fas fa-medkit"></i> Treatment / Management
+                    </label>
+                    <textarea id="treatment" name="treatment" class="form-input" 
+                              required>{{ disease.treatment|default:'' }}</textarea>
+                </div>
+
+                <div class="form-section">
+                    <label class="form-label" for="image_url">
+                        <i class="fas fa-image"></i> Image URL
+                    </label>
+                    <input type="text" id="image_url" name="image_url" 
+                           class="form-input" value="{{ disease.image_url|default:'' }}" />
+                    <p class="form-hint">Enter a valid URL for the disease image</p>
+                </div>
+
+                <div class="action-buttons">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-save"></i> Save Changes
+                    </button>
+                    <a href="{% url 'disease_list' %}" class="btn btn-secondary">
+                        <i class="fas fa-times"></i> Cancel
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        function addSymptomField() {
+            const container = document.getElementById("symptoms-container");
+            const div = document.createElement("div");
+            div.className = "symptom-item";
+
+            const input = document.createElement("input");
+            input.type = "text";
+            input.name = "symptoms";
+            input.placeholder = "Enter symptom";
+            input.className = "form-input";
+            input.required = true;
+
+            const removeBtn = document.createElement("button");
+            removeBtn.type = "button";
+            removeBtn.className = "btn btn-danger";
+            removeBtn.innerHTML = '<i class="fas fa-trash-alt"></i>';
+            removeBtn.onclick = function() { removeSymptom(this); };
+
+            div.appendChild(input);
+            div.appendChild(removeBtn);
+            container.appendChild(div);
+        }
+
+        function removeSymptom(button) {
+            const container = document.getElementById("symptoms-container");
+            if (container.children.length > 1) {
+                container.removeChild(button.parentElement);
+            } else {
+                alert("At least one symptom is required.");
+            }
+        }
+    </script>
+</body>
+</html>

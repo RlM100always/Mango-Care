@@ -1,0 +1,357 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{{ disease.name }} - MangoCare</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" />
+    <style>
+        :root {
+            --primary-color: #2e7d32;
+            --secondary-color: #66bb6a;
+            --accent-color: #9cff57;
+            --text-light: #ffffff;
+            --text-dark: #1c2c1c;
+            --gradient: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background-color: #f8faf8;
+            color: var(--text-dark);
+            line-height: 1.6;
+        }
+
+        .header {
+            background: var(--gradient);
+            padding: 1.2rem 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--accent-color);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2.5rem;
+        }
+
+        .nav-links a {
+            color: var(--text-light);
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.8rem 1.2rem;
+            border-radius: 8px;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .nav-links a:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 100px auto 4rem;
+            padding: 0 2rem;
+        }
+
+        .breadcrumb {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 2rem;
+            color: #666;
+        }
+
+        .breadcrumb a {
+            color: var(--primary-color);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .disease-details {
+            background: var(--text-light);
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .disease-header {
+            background: var(--gradient);
+            padding: 3rem;
+            color: var(--text-light);
+            display: grid;
+            grid-template-columns: 400px 1fr;
+            gap: 3rem;
+            align-items: center;
+        }
+
+        .disease-image {
+            width: 100%;
+            height: 400px;
+            object-fit: cover;
+            border-radius: 12px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+            transition: var(--transition);
+        }
+
+        .disease-image:hover {
+            transform: scale(1.02);
+        }
+
+        .disease-title {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--text-light);
+        }
+
+        .disease-brief {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            margin-bottom: 1.5rem;
+        }
+
+        .content-wrapper {
+            padding: 3rem;
+        }
+
+        .section {
+            margin-bottom: 3rem;
+        }
+
+        .section:last-child {
+            margin-bottom: 0;
+        }
+
+        .section-title {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            color: var(--primary-color);
+            font-size: 1.6rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.8rem;
+            border-bottom: 2px solid #e0e0e0;
+        }
+
+        .symptoms-list {
+            list-style: none;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1rem;
+        }
+
+        .symptoms-list li {
+            background: #f8faf8;
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .symptoms-list li i {
+            color: var(--primary-color);
+        }
+
+        .treatment-steps {
+            background: #f8faf8;
+            padding: 2rem;
+            border-radius: 12px;
+            margin-top: 1rem;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.8rem 1.5rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: var(--transition);
+        }
+
+        .btn-primary {
+            background: var(--primary-color);
+            color: var(--text-light);
+        }
+
+        .btn-secondary {
+            background: #f0f0f0;
+            color: var(--text-dark);
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        footer {
+            background: var(--primary-color);
+            color: var(--text-light);
+            padding: 4rem 2rem;
+            text-align: center;
+        }
+
+        @media (max-width: 1024px) {
+            .disease-header {
+                grid-template-columns: 1fr;
+                padding: 2rem;
+            }
+
+            .disease-image {
+                height: 300px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-container {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .nav-links {
+                flex-direction: column;
+                align-items: center;
+                width: 100%;
+            }
+
+            .container {
+                margin-top: 140px;
+            }
+
+            .content-wrapper {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <nav class="nav-container">
+            <div class="logo">
+                <i class="fas fa-seedling"></i>
+                MangoCare
+            </div>
+            <div class="nav-links">
+                <a href="{% url 'home' %}"><i class="fas fa-home"></i> Home</a>
+                <a href="{% url 'disease_list' %}"><i class="fas fa-bug"></i> Pests & Diseases</a>
+                <a href="{% url 'about' %}"><i class="fas fa-info-circle"></i> About Us</a>
+            </div>
+        </nav>
+    </header>
+
+    <div class="container">
+        <div class="breadcrumb">
+            <a href="{% url 'disease_list' %}">
+                <i class="fas fa-arrow-left"></i> Back to List
+            </a>
+            <i class="fas fa-chevron-right"></i>
+            <span>Disease Details</span>
+        </div>
+
+        <div class="disease-details">
+            <div class="disease-header">
+                <img src="{{ disease.image_url }}" alt="{{ disease.name }}" class="disease-image" />
+                <div>
+                    <h1 class="disease-title">{{ disease.name }}</h1>
+                    <p class="disease-brief">{{ disease.brief_description }}</p>
+                    <div class="action-buttons">
+                        <a href="{% url 'disease_edit' disease.id %}" class="btn btn-primary">
+                            <i class="fas fa-edit"></i> Edit Information
+                        </a>
+                        <a href="#" class="btn btn-secondary">
+                            <i class="fas fa-print"></i> Print Details
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="content-wrapper">
+                <div class="section">
+                    <h2 class="section-title">
+                        <i class="fas fa-info-circle"></i>
+                        Detailed Description
+                    </h2>
+                    <p>{{ disease.detailed_description }}</p>
+                </div>
+
+                <div class="section">
+                    <h2 class="section-title">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        Symptoms
+                    </h2>
+                    <ul class="symptoms-list">
+                        {% for symptom in disease.symptoms %}
+                            <li>
+                                <i class="fas fa-check-circle"></i>
+                                {{ symptom }}
+                            </li>
+                        {% empty %}
+                            <li>
+                                <i class="fas fa-info-circle"></i>
+                                No symptoms listed.
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+
+                <div class="section">
+                    <h2 class="section-title">
+                        <i class="fas fa-flask"></i>
+                        Treatment
+                    </h2>
+                    <div class="treatment-steps">
+                        {{ disease.treatment }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; {% now "Y" %} MangoCare - Your Trusted Resource for Mango Tree Health</p>
+    </footer>
+</body>
+</html>
